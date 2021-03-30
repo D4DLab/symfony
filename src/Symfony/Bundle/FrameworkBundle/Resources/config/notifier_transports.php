@@ -26,6 +26,7 @@ use Symfony\Component\Notifier\Bridge\LightSms\LightSmsTransportFactory;
 use Symfony\Component\Notifier\Bridge\LinkedIn\LinkedInTransportFactory;
 use Symfony\Component\Notifier\Bridge\Mattermost\MattermostTransportFactory;
 use Symfony\Component\Notifier\Bridge\Mercure\MercureTransportFactory;
+use Symfony\Component\Notifier\Bridge\MessageBird\MessageBirdTransportFactory;
 use Symfony\Component\Notifier\Bridge\Mobyt\MobytTransportFactory;
 use Symfony\Component\Notifier\Bridge\Nexmo\NexmoTransportFactory;
 use Symfony\Component\Notifier\Bridge\Octopush\OctopushTransportFactory;
@@ -164,5 +165,9 @@ return static function (ContainerConfigurator $container) {
         ->set('notifier.transport_factory.lightsms', LightSmsTransportFactory::class)
             ->parent('notifier.transport_factory.abstract')
             ->tag('texter.transport_factory')
+
+        ->set('notifier.transport_factory.messagebird', MessageBirdTransportFactory::class)
+        ->parent('notifier.transport_factory.abstract')
+        ->tag('texter.transport_factory')
     ;
 };
