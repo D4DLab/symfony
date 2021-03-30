@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Notifier\Bridge\MessageBird;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Notifier\Exception\TransportException;
 use Symfony\Component\Notifier\Exception\UnsupportedMessageTypeException;
 use Symfony\Component\Notifier\Message\MessageInterface;
@@ -27,13 +28,11 @@ final class MessageBirdTransport extends AbstractTransport
 {
     protected const HOST = 'rest.messagebird.com';
 
-    private $accountSid;
     private $authToken;
     private $from;
 
-    public function __construct(string $accountSid, string $authToken, string $from, HttpClientInterface $client = null, EventDispatcherInterface $dispatcher = null)
+    public function __construct(string $authToken, string $from, HttpClientInterface $client = null, EventDispatcherInterface $dispatcher = null)
     {
-        $this->accountSid = $accountSid;
         $this->authToken = $authToken;
         $this->from = $from;
 
@@ -56,7 +55,7 @@ final class MessageBirdTransport extends AbstractTransport
             throw new UnsupportedMessageTypeException(__CLASS__, SmsMessage::class, $message);
         }
 
-        $endpoint = sprintf('https://%s/messages', $this->getEndpoint(), $this->accountSid);
+        $endpoint = sprintf('https://%s/messages', $this->getEndpoint());
         $response = $this->client->request('POST', $endpoint, [
             'auth_basic' => 'AccessKey:'.$this->authToken,
             'body' => [
@@ -66,16 +65,16 @@ final class MessageBirdTransport extends AbstractTransport
             ],
         ]);
 
-        if (201 !== $response->getStatusCode()) {
-            $error = $response->toArray(false);
+        if (Response::HTTP_CREATED !== $response->getStatusCode()) {
+            $error = $response->toArray(false)['errors'];
 
-            throw new TransportException('Unable to send the SMS: '.$error['message'].sprintf(' (see %s).', $error['more_info']), $response);
+            throw new TransportException('Unable to send the SMS: '.$error[0]['description'], $response);
         }
 
         $success = $response->toArray(false);
 
         $sentMessage = new SentMessage($message, (string) $this);
-        $sentMessage->setMessageId($success['sid']);
+        $sentMessage->setMessageId($success['id']);
 
         return $sentMessage;
     }

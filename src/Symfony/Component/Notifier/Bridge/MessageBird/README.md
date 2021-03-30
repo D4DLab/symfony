@@ -7,11 +7,10 @@ DSN example
 -----------
 
 ```
-MESSAGEBIRD_DSN=messagebird://SID:TOKEN@default?from=FROM
+MESSAGEBIRD_DSN=messagebird://TOKEN@default?from=FROM
 ```
 
 where:
-- `SID` is your MessageBird ID
 - `TOKEN` is your MessageBird token
 - `FROM` is your sender
 

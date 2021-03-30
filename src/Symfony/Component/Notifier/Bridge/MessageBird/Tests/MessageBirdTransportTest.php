@@ -26,7 +26,7 @@ final class MessageBirdTransportTest extends TransportTestCase
      */
     public function createTransport(?HttpClientInterface $client = null): TransportInterface
     {
-        return new MessageBirdTransport('accountSid', 'authToken', 'from', $client ?: $this->createMock(HttpClientInterface::class));
+        return new MessageBirdTransport('authToken', 'from', $client ?: $this->createMock(HttpClientInterface::class));
     }
 
     public function toStringProvider(): iterable

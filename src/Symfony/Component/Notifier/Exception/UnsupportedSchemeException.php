@@ -120,6 +120,10 @@ class UnsupportedSchemeException extends LogicException
             'class' => Bridge\LightSms\LightSmsTransportFactory::class,
             'package' => 'symfony/lightsms-notifier',
         ],
+        'messagebird' => [
+            'class' => Bridge\MessageBird\MessageBirdTransportFactory::class,
+            'package' => 'symfony/message-bird-notifier',
+        ],
     ];
 
     /**

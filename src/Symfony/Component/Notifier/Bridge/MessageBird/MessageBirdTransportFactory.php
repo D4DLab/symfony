@@ -32,13 +32,12 @@ final class MessageBirdTransportFactory extends AbstractTransportFactory
             throw new UnsupportedSchemeException($dsn, 'messagebird', $this->getSupportedSchemes());
         }
 
-        $accountSid = $this->getUser($dsn);
         $authToken = $this->getPassword($dsn);
         $from = $dsn->getRequiredOption('from');
         $host = 'default' === $dsn->getHost() ? null : $dsn->getHost();
         $port = $dsn->getPort();
 
-        return (new MessageBirdTransport($accountSid, $authToken, $from, $this->client, $this->dispatcher))->setHost($host)->setPort($port);
+        return (new MessageBirdTransport($authToken, $from, $this->client, $this->dispatcher))->setHost($host)->setPort($port);
     }
 
     protected function getSupportedSchemes(): array
