@@ -29,7 +29,7 @@ final class MessageBirdTransportFactoryTest extends TransportFactoryTestCase
     {
         yield [
             'messagebird://host.test?from=0611223344',
-            'messagebird://authToken@host.test?from=0611223344',
+            'messagebird://:authToken@host.test?from=0611223344',
         ];
     }
 
@@ -41,7 +41,7 @@ final class MessageBirdTransportFactoryTest extends TransportFactoryTestCase
 
     public function missingRequiredOptionProvider(): iterable
     {
-        yield 'missing option: from' => ['messagebird://authToken@default'];
+        yield 'missing option: from' => ['messagebird://:authToken@default'];
     }
 
     public function unsupportedSchemeProvider(): iterable
