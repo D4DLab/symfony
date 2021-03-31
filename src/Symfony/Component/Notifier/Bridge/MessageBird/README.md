@@ -1,5 +1,5 @@
 MessageBird Notifier
-===============
+====================
 
 Provides [MessageBird](https://www.messagebird.com/) integration for Symfony Notifier.
 
